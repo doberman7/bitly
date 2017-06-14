@@ -1,7 +1,17 @@
-  <h1>Bitly</h1>
+<h1>Bitly</h1>
   <p>Deja a los usuarios crear una URL reducida y despliega una lista de URLs.</p>
   <br>
-  <form class="foo" action="/urls" method="post">
+
+  <form name="foo" action="/urls" method="post">
     <input type="text" name="new_url" value="">
     <input type="submit" name="subm" value="Submit">
   </form>
+
+  <br>
+
+  <h2>URLs</h2>
+  <% if @urls%>
+    <%@urls.each do |url|%>      
+      <%=url.short_url%>
+    <%end%>
+  <%end%>
