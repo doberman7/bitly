@@ -11,7 +11,7 @@
 
   <h2>URLs</h2>
   <% if @urls%>
-    <%@urls.each do |url|%>      
-      <%=url.short_url%>
+    <%@urls.each do |url|%>
+      <p><%=url.short_url%></p><br>
     <%end%>
   <%end%>
