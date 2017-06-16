@@ -12,6 +12,8 @@
   <h2>URLs</h2>
   <% if @urls%>
     <%@urls.each do |url|%>
-      <p><%=url.short_url%></p><br>
+      <!--el link dirige a la url corta-->
+      <a href="<%=url.long_url %>"><%=url.short_url%></a><br>
+
     <%end%>
   <%end%>

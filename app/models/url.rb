@@ -1,7 +1,5 @@
 class Url < ActiveRecord::Base
-  # Remember to create a migration!
 	validates :long_url, presence: true
-	# validates :short_url, presence: true
 
 	#Active Record Callback: antes de crear registro en la BD se usa methodo:
 	before_create :create_short_url
@@ -21,6 +19,5 @@ class Url < ActiveRecord::Base
 		end
 		#asignar el ary a atributo short_url del Url
 		self.short_url = shrt_url
-	end
-
+	end	
 end
