@@ -6,7 +6,7 @@ class Url < ActiveRecord::Base
 
 	def create_short_url
 		#prefijo del shot url
-		shrt_url = "https\://bitly/"
+		shrt_url = ""
 		3.times do
 			#traerse el ascci entre numeros aleatorio
 			#https://en.wikibooks.org/wiki/Ruby_Programming/ASCII
@@ -19,5 +19,5 @@ class Url < ActiveRecord::Base
 		end
 		#asignar el ary a atributo short_url del Url
 		self.short_url = shrt_url
-	end	
+	end
 end

@@ -1,7 +1,7 @@
 #p require_relative '../app/models/url.rb'#no fuciona para traerse el method create_short_url
 
 	def create_short_url
-		short_url = "https\://bitly/"
+		short_url = ""
 		3.times do
 			#traerse el ascci entre numeros aleatorio
 			#https://en.wikibooks.org/wiki/Ruby_Programming/ASCII
@@ -18,5 +18,5 @@
 #para que seed funcione necesario descomentar, ya que el require_relative no fuciona
 
 10.times do
-	Url.create!(long_url: "https\://github.com/stympy/faker", short_url: create_short_url)
+	Url.create!(long_url: "https\://github.com/stympy/faker", short_url: create_short_url, click_count: 0)
 end

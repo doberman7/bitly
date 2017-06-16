@@ -13,7 +13,8 @@
   <% if @urls%>
     <%@urls.each do |url|%>
       <!--el link dirige a la url corta-->
-      <a href="<%=url.long_url %>"><%=url.short_url%></a><br>
+      <% @test = "123" %>
+      <a href="/short_url/<%= url.short_url %>"><%=url.short_url%></a><br>
 
     <%end%>
   <%end%>

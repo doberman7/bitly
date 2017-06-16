@@ -13,7 +13,8 @@ post '/urls' do
 end
 
 # e.g., /q6bda
-get '/:short_url' do
+get '/short_url/:short_url' do
   # redirige a la URL originals
-
+  p "*" * 50
+  p params
 end
