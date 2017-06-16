@@ -8,7 +8,16 @@ end
 
 post '/urls' do
   # crea una nueva Url
-  Url.create!(long_url: params[:new_url] , click_count: 0)
+  newURL = Url.new(long_url: params[:new_url] , click_count: 0)
+
+  if newURL.valid?
+    newURL.save
+    session[:errors].clear if session[:errors]
+    else
+    p "X"*50
+    session[:errors] = newURL.errors.full_messages
+  end
+
   redirect to '/'
 end
 

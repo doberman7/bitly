@@ -8,7 +8,10 @@
   </form>
 
   <br>
-
+  <%if session[:errors] != [nil]%>
+    <%=session[:errors].join %>
+  <%end%>
+  <br>
   <h2>URLs</h2>
   <% if @urls%>
     <%@urls.each do |url|%>
