@@ -8,13 +8,15 @@ end
 
 post '/urls' do
   # crea una nueva Url
-  Url.create!(long_url: params[:new_url])
+  Url.create!(long_url: params[:new_url] , click_count: 0)
   redirect to '/'
 end
 
-# e.g., /q6bda
-get '/short_url/:short_url' do
-  # redirige a la URL originals
+# redirige a la URL originals
+get '/short_url/:url_id' do
   p "*" * 50
-  p params
+  # asignar el Url que tenga el id en :url_id
+  url = Url.find(params[:url_id])
+  url.add_click
+  redirect to "#{url.long_url}"
 end

@@ -1,6 +1,6 @@
 class Url < ActiveRecord::Base
 	validates :long_url, presence: true
-
+	validates :click_count, presence: true
 	#Active Record Callback: antes de crear registro en la BD se usa methodo:
 	before_create :create_short_url
 
@@ -19,5 +19,11 @@ class Url < ActiveRecord::Base
 		end
 		#asignar el ary a atributo short_url del Url
 		self.short_url = shrt_url
+	end
+	def add_click
+		#sumar 1 al atributo click_count
+		self.click_count = click_count + 1
+		# ActiveRecord metod update: actualizar el atributo click_count
+		self.update(click_count: click_count)
 	end
 end
