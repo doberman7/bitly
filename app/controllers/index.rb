@@ -8,8 +8,7 @@ end
 
 post '/urls' do
   # crea una nueva Url
-  newURL = Url.new(long_url: params[:new_url] , click_count: 0)
-
+  newURL = Url.new(long_url: params[:new_url] , click_count: 0)  
   if newURL.valid?
     newURL.save
     # session[:errors].clear if session[:errors]

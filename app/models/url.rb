@@ -1,13 +1,18 @@
+require 'uri'
+
 class Url < ActiveRecord::Base
 	validates :long_url, presence: true
 	validates :click_count, presence: true
 
 	# This helper validates the attributes' values by testing whether they match a given regular expression, which is specified using the :with option.
 	#NO ESTA SOPORTANDO ANALISIS DESDE EL INICIO CON /A PREGUINTAR A ABEL
-	validates :long_url, format: { with: /(http|https)?:\/\//, message: "no tiene el forma" }
+	validates :long_url, format: { with: /(http|https)?:\/\//, message: "formato de URL incorrecto" }
+
+	before_create :check_uri
 
 	#Active Record Callback: antes de crear registro en la BD se usa methodo:
 	before_create :create_short_url
+
 
 
 	def create_short_url
@@ -32,5 +37,10 @@ class Url < ActiveRecord::Base
 		# ActiveRecord metod update: actualizar el atributo click_count
 		self.update(click_count: click_count)
 	end
-
+	#AQUI
+	def check_uri
+		p "<"*50
+		p URI::parse(self.long_url)
+		p self.long_url
+	end
 end
