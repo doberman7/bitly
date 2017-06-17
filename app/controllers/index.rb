@@ -12,10 +12,11 @@ post '/urls' do
 
   if newURL.valid?
     newURL.save
-    session[:errors].clear if session[:errors]
+    # session[:errors].clear if session[:errors]
+    p session[:message] = "saved"
     else
     p "X"*50
-    session[:errors] = newURL.errors.full_messages
+    p session[:message] = newURL.errors.full_messages * " , "
   end
 
   redirect to '/'

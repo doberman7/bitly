@@ -8,15 +8,14 @@
   </form>
 
   <br>
-  <%if session[:errors] != [nil]%>
-    <%=session[:errors].join %>
+  <%if session[:message] %>
+    <%=session[:message]  %>
   <%end%>
   <br>
   <h2>URLs</h2>
-  <% if @urls%>
+  <% if @urls %>
     <%@urls.each do |url|%>
       <!--el link dirige a la url corta-->
       <a href="/short_url/<%= url.id %>">https://bitly/<%=url.short_url%></a><br>
-
     <%end%>
   <%end%>
