@@ -1,4 +1,5 @@
 require 'uri'
+require "net/http"
 
 class Url < ActiveRecord::Base
 	validates :long_url, presence: true
@@ -40,7 +41,22 @@ class Url < ActiveRecord::Base
 	#AQUI
 	def check_uri
 		p "<"*50
-		p URI::parse(self.long_url)
-		p self.long_url
+		#Creates one of the URI’s subclasses instance from the string.
+		url = URI::parse(self.long_url)
+		p "HOST: #{url.host}"
+		p "PORT: #{url.port}"
+		p "PATH: #{url.path}"
+		p "<"*50
+		#Sends a GET request to the target and returns the HTTP response as a Net::HTTPResponse object. The target can either be specified as (uri), or as (host, path, port = 80); so:
+		res = Net::HTTP.get_response(url)
+		p "OBJETO NET con get response: #{res}"
+		p "OBJETO NET code: #{res.code}" #IF 404 salr
+		# p "OBJETO NET body: #{res.body}"
+		p "MESAGE: #{res.message}"    # => 'OK'
+		p "CLASS NAME #{res.class.name}" # => 'HTTPOK'
+		p "<"*50
+		#Sends a HEAD request to the path and returns the response as a Net::HTTPResponse object.
+		# res = req.request_head(url.path)
+		# p res
 	end
 end
