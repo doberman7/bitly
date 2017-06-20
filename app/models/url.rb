@@ -2,6 +2,7 @@ require 'uri'
 require "net/http"
 
 class Url < ActiveRecord::Base
+	#VALIDA ATRIBUTOS: validates(*attributes)
 	validates :long_url, presence: true
 	validates :click_count, presence: true
 
@@ -9,12 +10,14 @@ class Url < ActiveRecord::Base
 	#NO ESTA SOPORTANDO ANALISIS DESDE EL INICIO CON /A PREGUINTAR A ABEL
 	validates :long_url, format: { with: /(http|https)?:\/\//, message: "formato de URL incorrecto" }
 
-	before_create :check_uri
+	# before_create :check_uri
 
 	#Active Record Callback: antes de crear registro en la BD se usa methodo:
 	before_create :create_short_url
 
-
+	#Adds a validation method or block to the class. This is useful when overriding the validate instance method becomes too unwieldy and you're looking for more descriptive declaration of your validations.
+	#This can be done with a symbol pointing to a method:
+	validate :check_uri
 
 	def create_short_url
 		#prefijo del shot url
@@ -42,21 +45,24 @@ class Url < ActiveRecord::Base
 	def check_uri
 		p "<"*50
 		#Creates one of the URI’s subclasses instance from the string.
-		url = URI::parse(self.long_url)
-		p "HOST: #{url.host}"
-		p "PORT: #{url.port}"
-		p "PATH: #{url.path}"
+		uri = URI::parse(self.long_url)
+		p "HOST: #{uri.host}"
+		p "PORT: #{uri.port}"
+		p "PATH: #{uri.path}"
+		p "SCHEME: #{uri.scheme}"
+		# puts URI.split(self.long_url)
+		p URI.scheme_list
+		if uri.class == MatchData
+			#Sends a GET request to the target and returns the HTTP response as a Net::HTTPResponse object. The target can either be specified as (uri), or as (host, path, port = 80); so:
+			p res = Net::HTTP.get_response(uri)
+			p "OBJETO NET con get response: #{res}"
+			p "MESAGE: #{res.message}"
+			# p "CLASS NAME #{res.class.name}"
+			p "OBJETO NET code: #{res.code}"
+			# p "OBJETO NET body: #{res.body}"
+			errors.add(:base, 'error 404 NOT FOUND') if res.code == "404"
+		end
 		p "<"*50
-		#Sends a GET request to the target and returns the HTTP response as a Net::HTTPResponse object. The target can either be specified as (uri), or as (host, path, port = 80); so:
-		res = Net::HTTP.get_response(url)
-		p "OBJETO NET con get response: #{res}"
-		p "OBJETO NET code: #{res.code}" #IF 404 salr
-		# p "OBJETO NET body: #{res.body}"
-		p "MESAGE: #{res.message}"    # => 'OK'
-		p "CLASS NAME #{res.class.name}" # => 'HTTPOK'
-		p "<"*50
-		#Sends a HEAD request to the path and returns the response as a Net::HTTPResponse object.
-		# res = req.request_head(url.path)
-		# p res
+
 	end
 end
