@@ -2,13 +2,15 @@ require 'uri'
 require "net/http"
 
 class Url < ActiveRecord::Base
+
+
 	#VALIDA ATRIBUTOS: validates(*attributes)
 	validates :long_url, presence: true
 	validates :click_count, presence: true
 
 	# This helper validates the attributes' values by testing whether they match a given regular expression, which is specified using the :with option.
 	#NO ESTA SOPORTANDO ANALISIS DESDE EL INICIO CON /A PREGUINTAR A ABEL
-	validates :long_url, format: { with: /(http|https)?:\/\//, message: "formato de URL incorrecto" }
+	validates :long_url, format: { with: /(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?/, message: "formato de URL incorrecto" }
 
 	# before_create :check_uri
 
@@ -50,17 +52,22 @@ class Url < ActiveRecord::Base
 		p "PORT: #{uri.port}"
 		p "PATH: #{uri.path}"
 		p "SCHEME: #{uri.scheme}"
+		p "QUERY: #{uri.query}"
+		p "FRAGMENT: #{uri.fragment}"
 		# puts URI.split(self.long_url)
-		p URI.scheme_list
-		if uri.class == MatchData
+		# p URI.scheme_list
+		if uri.scheme == "http" || uri.scheme == "https"
 			#Sends a GET request to the target and returns the HTTP response as a Net::HTTPResponse object. The target can either be specified as (uri), or as (host, path, port = 80); so:
-			p res = Net::HTTP.get_response(uri)
+			p "0"*50
+			res = Net::HTTP.get(uri)
+			
 			p "OBJETO NET con get response: #{res}"
 			p "MESAGE: #{res.message}"
 			# p "CLASS NAME #{res.class.name}"
 			p "OBJETO NET code: #{res.code}"
-			# p "OBJETO NET body: #{res.body}"
-			errors.add(:base, 'error 404 NOT FOUND') if res.code == "404"
+			p "OBJETO NET body: #{res.body}"
+			errors.add(:base, 'error 404 NOT FOUND') if res == "Not Found"
+			p "0"*50
 		end
 		p "<"*50
 
